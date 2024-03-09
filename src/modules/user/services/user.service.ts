@@ -1,4 +1,5 @@
 import AbstractException from "../../../core/exception/abstract.exception";
+import Logger from "../../../core/logger/Logger";
 import { RegisterRequest } from "../../auth/requests/auth.requests";
 import { User } from "../entities/user.entity";
 import UserRepository from "../repositories/user.repository";
@@ -13,11 +14,7 @@ class UserService {
   /**
    * createUser
    */
-  public async createUser({
-    email,
-    password,
-    password_confirm,
-  }: RegisterRequest) {
+  public async createUser({ email, password, password_confirm }: RegisterRequest) {
     const isExist = await this.userRepo.findOne({
       where: { email: email },
     });

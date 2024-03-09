@@ -1,14 +1,8 @@
 import { DataSource } from "typeorm";
 import path from "path";
+import Logger from "../core/logger/Logger";
 
-const entitiesPath = path.join(
-  __dirname,
-  "..",
-  "modules",
-  "**",
-  "entities",
-  "*.entity{.ts,.js}"
-);
+const entitiesPath = path.join(__dirname, "..", "modules", "**", "entities", "*.entity{.ts,.js}");
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -18,7 +12,8 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   synchronize: true,
-  logging: false,
+  logging: true,
+  logger: "file",
   entities: [entitiesPath],
   migrations: [],
   subscribers: [],

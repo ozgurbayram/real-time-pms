@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToMany, Unique } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToMany } from "typeorm";
 import Task from "./task.entity";
 import { User } from "../../user/entities/user.entity";
+import AbstractEntity from "../../../core/entities/abstract.entity";
 
 @Entity()
-@Unique("task_user", ["user_id", "task_id"])
-export default class TaskUser {
+export default class TaskUser extends AbstractEntity {
   @ManyToMany(() => User)
   @JoinColumn({ name: "user_id" })
   user: User;
@@ -13,6 +13,6 @@ export default class TaskUser {
   @JoinColumn({ name: "task_id" })
   task: Task;
 
-  @Column({ type: "datetime" })
-  assigned_at: Date;
+  @Column()
+  assigned_at: string;
 }

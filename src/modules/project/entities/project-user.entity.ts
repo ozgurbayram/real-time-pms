@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToMany, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, In, Index, JoinColumn, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import Project from "./project.entity";
 import { User } from "../../user/entities/user.entity";
+import AbstractEntity from "../../../core/entities/abstract.entity";
 
 @Entity()
-@Unique("project_user", ["project_id", "user_id"])
-export default class ProjectUser {
+export default class ProjectUser extends AbstractEntity {
   @ManyToMany(() => Project)
   @JoinColumn({ name: "project_id" })
   project: Project;
@@ -13,6 +13,6 @@ export default class ProjectUser {
   @JoinColumn({ name: "user_id" })
   user: User;
 
-  @Column({ type: "datetime" })
+  @CreateDateColumn({ precision: 3 })
   assigned_at: Date;
 }

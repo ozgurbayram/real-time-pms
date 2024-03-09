@@ -8,15 +8,9 @@ import { createExpressServer } from "routing-controllers";
 import { ErrorHandler } from "./core/middlewares/error-handler.middleware";
 import { AppDataSource } from "./integrations/database";
 import { initPassport } from "./modules/auth/passport.config";
+import Logger from "./core/logger/Logger";
 
-
-const controllersPath = path.join(
-  __dirname,
-  "modules",
-  "**",
-  "controllers",
-  "*.controller{.ts,.js}"
-);
+const controllersPath = path.join(__dirname, "modules", "**", "controllers", "*.controller{.ts,.js}");
 
 class App {
   public express: Express;
@@ -27,13 +21,18 @@ class App {
       routePrefix: "/api",
       middlewares: [bodyParser.json(), ErrorHandler, passport.initialize()],
       defaultErrorHandler: false,
-      cors:true,
+      cors: true,
       currentUserChecker: async (action) => {
         return action.request.user;
       },
     });
     this.initializeDatabase();
     this.initializePassport();
+    this.initializeLogger();
+  }
+
+  private initializeLogger() {
+    new Logger().initializeWinston();
   }
 
   private initializePassport() {
