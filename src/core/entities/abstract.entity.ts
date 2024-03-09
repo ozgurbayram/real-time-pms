@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn } from "typeorm";
+import {  Index, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
 class AbstractEntity {
 	@PrimaryGeneratedColumn({})
+	@Index()
 	id: number;
 }
 
