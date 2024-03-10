@@ -27,8 +27,8 @@ class App {
       },
     });
     this.initializeDatabase();
-    this.initializePassport();
     this.initializeLogger();
+    this.initializePassport();
   }
 
   private initializeLogger() {

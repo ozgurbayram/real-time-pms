@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { Body, JsonController, Post, Req, Res } from "routing-controllers";
+import { Body, JsonController, Middleware, Post, Req, Res } from "routing-controllers";
 import SuccessResponse from "../../../core/response/success.response";
 import UserService from "../../user/services/user.service";
-import { RegisterRequest } from "../requests/auth.requests";
+import { LoginRequest, RegisterRequest } from "../requests/auth.requests";
 import AuthService from "../services/auth.service";
 
 @JsonController("/auth")
@@ -16,7 +16,7 @@ class AuthController {
   }
 
   @Post("/login")
-  public async login(@Body() body: { email: string; password: string }, @Res() res: Response) {
+  public async login(@Body() body: LoginRequest, @Res() res: Response) {
     const { email, password } = body;
 
     const data = await this.authService.loginViaPasswordGrant(email, password);

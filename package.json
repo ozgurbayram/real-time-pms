@@ -45,6 +45,10 @@
     "@types/node": "^20.10.6",
     "@types/passport": "^1.0.16",
     "@types/passport-local": "^1.0.38",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-decorator-position": "^5.0.2",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

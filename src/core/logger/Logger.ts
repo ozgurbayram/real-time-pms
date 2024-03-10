@@ -25,7 +25,6 @@ class Logger {
         new winston.transports.File({
           filename: "error.log",
           dirname: "logs",
-
           level: "error",
         }),
       ],

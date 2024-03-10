@@ -1,8 +1,9 @@
 export enum TaskStaus {
-  ASSIGNED = 0,
-  IN_PROGRESS = 1,
-  WAITING_APPROVAL = 2,
-  IN_TEST = 3,
-  DONE = 4,
-  CLOSED = 5,
+  DRAFT = 'draft',
+  ASSIGNED = 'assigned',
+  IN_PROGRESS = 'in_progress',
+  WAITING_APPROVAL = 'waiting_approval',
+  IN_TEST = 'in_test',
+  DONE = 'done',
+  CLOSED = 'closed',
 }
