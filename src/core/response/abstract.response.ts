@@ -1,13 +1,13 @@
-import { Response } from "express";
+import { Response } from 'express';
 
 abstract class AbstractResponse {
-  protected statusCode: number;
-  protected message: string;
+	protected statusCode: number;
+	protected message: string;
 
-  constructor(message: string, statusCode: number) {
-    this.message = message;
-    this.statusCode = statusCode;
-  }
+	constructor(message: string, statusCode: number) {
+		this.message = message;
+		this.statusCode = statusCode;
+	}
 
   abstract send(res: Response): void;
 }

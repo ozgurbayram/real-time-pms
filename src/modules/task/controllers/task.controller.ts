@@ -3,7 +3,6 @@ import { IsAuthenticated } from '../../../core/middlewares/authentication.middle
 import TaskService from '../services/task.service';
 import { User } from '../../user/entities/user.entity';
 import { CreateTaskRequest } from '../requests/task.request';
-import SuccessResponse from '../../../core/response/success.response';
 
 @JsonController('/task')
 @UseBefore(IsAuthenticated)
@@ -18,7 +17,7 @@ class TaskController {
 	public async create(@CurrentUser() user: User, @Body({ validate: true, transform: { version: 3 } }) body: CreateTaskRequest) {
 		const data = await this.taskSevice.createTask(body, user);
 
-		return new SuccessResponse(data);
+		return data; 
 	}
 }
 

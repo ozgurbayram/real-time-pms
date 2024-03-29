@@ -3,7 +3,7 @@ import TimeStampEntity from '../../../core/entities/timestamp.entity';
 import Project from '../../project/entities/project.entity';
 import { User } from '../../user/entities/user.entity';
 
-@Entity()
+@Entity({name:'task'})
 export default class Task extends TimeStampEntity {
   @ManyToOne(() => Project)
   @JoinColumn({ name: 'project_id' })
@@ -12,8 +12,7 @@ export default class Task extends TimeStampEntity {
   @Column() name: string;
 
   @Column() status: string;
-
-  
+ 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'creator_id' })
   @Index()

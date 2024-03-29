@@ -1,9 +1,9 @@
-import AbstractException from "../../../core/exception/abstract.exception";
+import AbstractException from '../../../core/exception/abstract.exception';
 
 class UserNotFoundException extends AbstractException {
-  constructor() {
-    super("User not found", 400);
-  }
+	constructor() {
+		super('User not found', 400);
+	}
 }
 
 export default UserNotFoundException;

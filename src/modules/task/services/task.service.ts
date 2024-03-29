@@ -1,7 +1,7 @@
 import ProjectRepository from '../../project/repositorties/project.repository';
 import { User } from '../../user/entities/user.entity';
 import Task from '../entities/task.entity';
-import TaskRepository from '../repositorties/task.repository';
+import TaskRepository from '../repositories/task.repository';
 import { CreateTaskRequest } from '../requests/task.request';
 
 class TaskService {

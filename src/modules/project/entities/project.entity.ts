@@ -3,7 +3,7 @@ import TimeStampEntity from '../../../core/entities/timestamp.entity';
 import { User } from '../../user/entities/user.entity';
 import { ProjectStatus } from '../enums/project.enums';
 
-@Entity()
+@Entity({name:'project'})
 export default class Project extends TimeStampEntity {
   @Column({ nullable: false, type: 'varchar' }) name: string;
 

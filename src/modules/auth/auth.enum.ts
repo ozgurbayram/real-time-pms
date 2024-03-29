@@ -1,4 +1,4 @@
 export enum AuthScope {
-  BASIC = "basic",
-  REGULAR = "regular",
+  BASIC = 'basic',
+  REGULAR = 'regular',
 }

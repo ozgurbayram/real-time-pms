@@ -1,14 +1,14 @@
-import { HttpStatusCode } from "../../enums/http.codes.enum";
+import { HttpStatusCode } from '../../enums/http.codes.enum';
 
 class AbstractException extends Error {
-  message: string;
-  status: HttpStatusCode;
+	message: string;
+	status: HttpStatusCode;
 
-  constructor(message: string = "Internal Server Error", status: HttpStatusCode = HttpStatusCode.INTERNAL_SERVER_ERROR) {
-    super(message);
-    this.message = message;
-    this.status = status;
-  }
+	constructor(message: string = 'Internal Server Error', status: HttpStatusCode = HttpStatusCode.INTERNAL_SERVER_ERROR) {
+		super(message);
+		this.message = message;
+		this.status = status;
+	}
 }
 
 export default AbstractException;

@@ -1,7 +1,6 @@
-import {  Index, PrimaryGeneratedColumn } from "typeorm";
+import {  PrimaryGeneratedColumn } from 'typeorm';
 class AbstractEntity {
-	@PrimaryGeneratedColumn()
-	id: number;
+	@PrimaryGeneratedColumn() id: number;
 }
 
 export default AbstractEntity;

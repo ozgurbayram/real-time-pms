@@ -1,24 +1,23 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class LoginRequest {
-  @IsEmail()
-  email: string;
+  @IsEmail() email: string;
 
   @IsNotEmpty()
   @Length(8, 100)
-  password: string;
+  	password: string;
 }
 
 export class RegisterRequest {
   @IsEmail()
   @IsNotEmpty()
-  email: string;
+  	email: string;
 
   @IsString()
   @Length(8, 100)
-  password: string;
+  	password: string;
 
   @IsString()
   @Length(8, 100)
-  password_confirm: string;
+  	password_confirm: string;
 }

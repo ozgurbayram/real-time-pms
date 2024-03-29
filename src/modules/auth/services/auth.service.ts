@@ -1,84 +1,84 @@
-import { Request, Response } from "express";
-import { isEmpty } from "lodash";
-import passport from "passport";
-import AbstractException from "../../../core/exception/abstract.exception";
-import { User } from "../../user/entities/user.entity";
-import UserRepository from "../../user/repositories/user.repository";
-import { Auth } from "../auth.types";
-import UserNotFoundException from "../exceptions/userNotFound.exception";
-import TokenService from "./token.service";
+import { Request, Response } from 'express';
+import { isEmpty } from 'lodash';
+import passport from 'passport';
+import AbstractException from '../../../core/exception/abstract.exception';
+import { User } from '../../user/entities/user.entity';
+import UserRepository from '../../user/repositories/user.repository';
+import { Auth } from '../auth.types';
+import UserNotFoundException from '../exceptions/userNotFound.exception';
+import TokenService from './token.service';
 
 class AuthService {
-  private userRepo: UserRepository;
-  private tokenService: TokenService;
+	private userRepo: UserRepository;
+	private tokenService: TokenService;
 
-  constructor() {
-    this.userRepo = new UserRepository();
-    this.tokenService = new TokenService();
-  }
+	constructor() {
+		this.userRepo = new UserRepository();
+		this.tokenService = new TokenService();
+	}
 
-  public async verifyCredentials(email: string, password: string) {
-    const user = await this.userRepo.findOne({ where: { email } });
+	public async verifyCredentials(email: string, password: string) {
+		const user = await this.userRepo.findOne({ where: { email } });
 
-    if (isEmpty(user)) {
-      throw new UserNotFoundException();
-    }
+		if (isEmpty(user)) {
+			throw new UserNotFoundException();
+		}
 
-    const isPasswordCorrect = await user.validatePassword(password);
+		const isPasswordCorrect = await user.validatePassword(password);
 
-    if (!isPasswordCorrect) {
-      throw new AbstractException("Password is incorrect", 400);
-    }
+		if (!isPasswordCorrect) {
+			throw new AbstractException('Password is incorrect', 400);
+		}
 
-    return user;
-  }
+		return user;
+	}
 
-  public async authenticateUser(body: { email: string; password: string }): Promise<{ user: User | null; info?: { message: string } }> {
-    return new Promise((resolve, reject) => {
-      passport.authenticate("local", (err: Error, user: User, info: { message: string }) => {
-        if (err) {
-          reject(err);
-        } else if (!user) {
-          resolve({ user: null, info });
-        } else {
-          resolve({ user });
-        }
-      })({ body: body } as Request, {} as Response, () => {});
-    });
-  }
+	public async authenticateUser(body: { email: string; password: string }): Promise<{ user: User | null; info?: { message: string } }> {
+		return new Promise((resolve, reject) => {
+			passport.authenticate('local', (err: Error, user: User, info: { message: string }) => {
+				if (err) {
+					reject(err);
+				} else if (!user) {
+					resolve({ user: null, info });
+				} else {
+					resolve({ user });
+				}
+			})({ body: body } as Request, {} as Response, () => {});
+		});
+	}
 
-  /**
+	/**
    * loginViaPasswordGrant
    */
-  public async loginViaPasswordGrant(email: string, password: string): Promise<Auth> {
-    const { user } = await this.authenticateUser({ email, password });
-    if (!user) {
-      throw new AbstractException("Invalid credentials", 400);
-    }
+	public async loginViaPasswordGrant(email: string, password: string): Promise<Auth> {
+		const { user } = await this.authenticateUser({ email, password });
+		if (!user) {
+			throw new AbstractException('Invalid credentials', 400);
+		}
 
-    const tokens = await this.tokenService.generateUserTokens(user);
+		const tokens = await this.tokenService.generateUserTokens(user);
 
-    return tokens;
-  }
+		return tokens;
+	}
 
-  /**
+	/**
    * refreshToken
    */
-  public async refreshToken(token: string) {
-    const decoded = await this.tokenService.verifyToken(token);
-    const { userId } = decoded as Record<string, unknown>;
-    const user = await this.userRepo.findOne({
-      where: { id: userId as number },
-    });
+	public async refreshToken(token: string) {
+		const decoded = await this.tokenService.verifyToken(token);
+		const { userId } = decoded as Record<string, unknown>;
+		const user = await this.userRepo.findOne({
+			where: { id: userId as number },
+		});
 
-    if (!user) {
-      throw new AbstractException("User not found", 404);
-    }
+		if (!user) {
+			throw new AbstractException('User not found', 404);
+		}
 
-    const data = this.tokenService.generateUserTokens(user);
+		const data = this.tokenService.generateUserTokens(user);
 
-    return data;
-  }
+		return data;
+	}
 }
 
 export default AuthService;
