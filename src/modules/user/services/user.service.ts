@@ -1,5 +1,6 @@
 import AbstractException from '../../../core/exception/abstract.exception';
-import { RegisterRequest } from '../../auth/requests/auth.requests';
+import { HttpStatusCode } from '../../../enums/http.codes.enum';
+import { RegisterRequest } from '../../auth/network/auth.requests';
 import { User } from '../entities/user.entity';
 import UserRepository from '../repositories/user.repository';
 
@@ -11,7 +12,7 @@ class UserService {
 	}
 
 	public async listUsers() {
-		return this.userRepo.find();
+		return await this.userRepo.find();
 	}
 	
 	public async createUser({ email, password, password_confirm }: RegisterRequest) {
@@ -20,11 +21,11 @@ class UserService {
 		});
 
 		if (isExist) {
-			throw new AbstractException('User already exist', 400);
+			throw new AbstractException('User already exist', HttpStatusCode.Conflict);
 		}
 
 		if (password !== password_confirm) {
-			throw new AbstractException('Password Mismatch', 400);
+			throw new AbstractException('Password Mismatch', HttpStatusCode.BadRequest);
 		}
 
 		const user = new User();

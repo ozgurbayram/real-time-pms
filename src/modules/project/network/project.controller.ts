@@ -1,6 +1,7 @@
 import {
 	Body,
 	CurrentUser,
+	Delete,
 	Get,
 	JsonController,
 	Param,
@@ -8,11 +9,11 @@ import {
 	Res,
 	UseBefore,
 } from 'routing-controllers';
-import { CreateProjectRequest } from '../request/project.request';
+import { Response } from 'express';
+import { CreateProjectRequest } from './project.request';
 import { User } from '../../user/entities/user.entity';
 import ProjectService from '../services/project.service';
 import { IsAuthenticated } from '../../../core/middlewares/authentication.middleware';
-import { Response } from 'express';
 
 @JsonController('/projects')
 @UseBefore(IsAuthenticated)
@@ -58,6 +59,19 @@ class ProjectController {
   	return res.json({
   		data: data,
   		message: 'Project created successfully',
+  	});
+  }
+
+  @Delete('/:id')
+  public async delete(
+    @CurrentUser() user: User,
+    @Param('id') id: number,
+    @Res() res: Response,
+  ) {
+  	await this.projectService.deleteProject(id, user);
+
+  	return res.json({
+  		message: 'Project deleted successfully',
   	});
   }
 }

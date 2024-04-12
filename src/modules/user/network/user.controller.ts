@@ -13,7 +13,7 @@ class UserController {
 
   @Get()
 	public async list() {
-		return this.userService.listUsers();
+		return await this.userService.listUsers();
 	}
 }
 

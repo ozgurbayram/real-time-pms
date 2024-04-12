@@ -4,7 +4,7 @@ class AbstractException extends Error {
 	message: string;
 	status: HttpStatusCode;
 
-	constructor(message: string = 'Internal Server Error', status: HttpStatusCode = HttpStatusCode.INTERNAL_SERVER_ERROR) {
+	constructor(message: string = 'Internal Server Error', status: HttpStatusCode = HttpStatusCode.InternalServerError) {
 		super(message);
 		this.message = message;
 		this.status = status;

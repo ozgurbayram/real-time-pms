@@ -21,3 +21,7 @@ export class RegisterRequest {
   @Length(8, 100)
   	password_confirm: string;
 }
+
+export class RefreshTokenRequest {
+  @IsNotEmpty() refresh_token: string;
+}

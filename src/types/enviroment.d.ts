@@ -12,6 +12,7 @@ declare global {
       DB_NAME: string;
       DB_DATABASE: string;
       ACCESS_TOKEN_SECRET: string;
+      JWT_TTL: string;
     }
   }
 }

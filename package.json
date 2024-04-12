@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon ./src/server.ts",
     "typeorm": "typeorm-ts-node-esm"
   },
@@ -33,6 +33,7 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.1",
     "routing-controllers": "^0.10.4",
+    "ts-jest": "^29.1.2",
     "typeorm": "^0.3.19",
     "winston": "^3.12.0"
   },
@@ -40,6 +41,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.10.6",

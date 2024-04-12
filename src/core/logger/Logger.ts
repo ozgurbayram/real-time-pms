@@ -43,7 +43,7 @@ class Logger {
 		this._log(LogLevels.ERROR, message);
 	}
 
-	private _log(level: LogLevels, message: string, context?: string) {
+	private _log(level: LogLevels, message: string) {
 		this.logger.log(level, message);
 	}
 }

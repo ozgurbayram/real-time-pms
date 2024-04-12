@@ -3,7 +3,7 @@ import TaskService from '../../task/services/task.service';
 import { User } from '../../user/entities/user.entity';
 import Project from '../entities/project.entity';
 import ProjectRepository from '../repositorties/project.repository';
-import { CreateProjectRequest } from '../request/project.request';
+import { CreateProjectRequest } from '../network/project.request';
 import { isEmpty } from 'lodash';
 
 class ProjectService {
@@ -47,11 +47,9 @@ class ProjectService {
 	}
 
 	public async createProject(body: CreateProjectRequest, user: User) {
-		const _project = new Project();
-		_project.name = body.name;
-		_project.creator = user;
-
-		const project = await this.projectRepository.save(_project);
+		const project = await this.projectRepository.save(
+			new Project(body.name, user),
+		);
 
 		const deafultTask = await this.taskService.createTask(
 			{
@@ -80,6 +78,22 @@ class ProjectService {
 		const updatedProject = await this.projectRepository.save(project);
 
 		return updatedProject;
+	}
+
+	public async deleteProject(projectId: number, user: User) {
+		const project = await this.projectRepository.findOne({
+			where: { id: projectId, creator: { id: user.id } },
+		});
+
+		await this.taskService.deleteTasksOfProject(projectId);
+
+		if (!project) {
+			throw new Error('Project not found');
+		}
+
+		await this.projectRepository.delete(projectId);
+
+		return true;
 	}
 }
 

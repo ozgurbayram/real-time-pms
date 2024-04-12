@@ -2,7 +2,7 @@ import ProjectRepository from '../../project/repositorties/project.repository';
 import { User } from '../../user/entities/user.entity';
 import Task from '../entities/task.entity';
 import TaskRepository from '../repositories/task.repository';
-import { CreateTaskRequest } from '../requests/task.request';
+import { CreateTaskRequest } from '../network/task.request';
 
 class TaskService {
 	private taskRepository: TaskRepository;
@@ -22,14 +22,15 @@ class TaskService {
 
 		const task = new Task();
 
-		task.name = name;
-		task.status = status;
-		task.creator = user;
-		task.project = project;
+		task.create(name, status, project, user);
 
 		const data = await this.taskRepository.save(task);
 
 		return { task: data };
+	}
+
+	public async deleteTasksOfProject(projectId: number) {
+		await this.taskRepository.delete({ project: { id: projectId } });
 	}
 }
 

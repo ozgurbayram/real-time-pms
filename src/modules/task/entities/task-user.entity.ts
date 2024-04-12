@@ -3,7 +3,7 @@ import Task from './task.entity';
 import { User } from '../../user/entities/user.entity';
 import AbstractEntity from '../../../core/entities/abstract.entity';
 
-@Entity({})
+@Entity({ name: 'task_user' })
 export default class TaskUser extends AbstractEntity {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })

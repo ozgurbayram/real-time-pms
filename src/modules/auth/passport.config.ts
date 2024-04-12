@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import AuthService from './services/auth.service';
+import AuthService from './service/auth.service';
 
 export function initPassport() {
 	const authService = new AuthService();

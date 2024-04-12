@@ -1,8 +1,12 @@
-import { Request, Response } from 'express';
-import { Body, JsonController, Post, Req, Res } from 'routing-controllers';
+import {  Response } from 'express';
+import { Body, JsonController, Post, Res } from 'routing-controllers';
 import UserService from '../../user/services/user.service';
-import { LoginRequest, RegisterRequest } from '../requests/auth.requests';
-import AuthService from '../services/auth.service';
+import {
+	LoginRequest,
+	RefreshTokenRequest,
+	RegisterRequest,
+} from './auth.requests';
+import AuthService from '../service/auth.service';
 
 @JsonController('/auth')
 class AuthController {
@@ -51,8 +55,11 @@ class AuthController {
   }
 
   @Post('/refresh_token')
-  public async refreshToken(@Req() req: Request, @Res() res: Response) {
-  	const { refresh_token } = req.body;
+  public async refreshToken(
+    @Body() body: RefreshTokenRequest,
+    @Res() res: Response,
+  ) {
+  	const { refresh_token } = body;
 
   	const data = await this.authService.refreshToken(refresh_token);
 

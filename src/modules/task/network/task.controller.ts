@@ -1,8 +1,14 @@
-import { Body, CurrentUser, JsonController, Post, UseBefore } from 'routing-controllers';
+import {
+	Body,
+	CurrentUser,
+	JsonController,
+	Post,
+	UseBefore,
+} from 'routing-controllers';
 import { IsAuthenticated } from '../../../core/middlewares/authentication.middleware';
 import TaskService from '../services/task.service';
 import { User } from '../../user/entities/user.entity';
-import { CreateTaskRequest } from '../requests/task.request';
+import { CreateTaskRequest } from './task.request';
 
 @JsonController('/task')
 @UseBefore(IsAuthenticated)
@@ -14,10 +20,13 @@ class TaskController {
 	}
 
   @Post()
-	public async create(@CurrentUser() user: User, @Body({ validate: true, transform: { version: 3 } }) body: CreateTaskRequest) {
+	public async create(
+    @CurrentUser() user: User,
+    @Body({ validate: true }) body: CreateTaskRequest,
+	) {
 		const data = await this.taskSevice.createTask(body, user);
 
-		return data; 
+		return data;
 	}
 }
 

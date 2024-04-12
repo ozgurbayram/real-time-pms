@@ -1,55 +1,31 @@
-import bodyParser from 'body-parser';
 import 'dotenv/config';
 import { Express } from 'express';
-import passport from 'passport';
-import path from 'path';
 import 'reflect-metadata';
 import { createExpressServer } from 'routing-controllers';
-import { ErrorHandler } from './core/middlewares/error-handler.middleware';
 import { AppDataSource } from './integrations/database';
-import { initPassport } from './modules/auth/passport.config';
 import Logger from './core/logger/logger';
-
-const controllersPath = path.join(
-	__dirname,
-	'modules',
-	'**',
-	'controllers',
-	'*.controller{.ts,.js}',
-);
+import appOptions from './app.options';
 
 class App {
 	public express: Express;
 
 	constructor() {
-		this.express = createExpressServer({
-			controllers: [controllersPath],
-			routePrefix: '/api',
-			middlewares: [
-				bodyParser.json(),
-				ErrorHandler,
-				passport.initialize(),
-			],
-			defaultErrorHandler: false,
-			cors: true,
-			currentUserChecker: async action => {
-				return action.request.user;
-			},
-		});
+		this.initializeServer();
+
 		this.initializeDatabase();
+
 		this.initializeLogger();
-		this.initializePassport();
+	}
+
+	private initializeServer() {
+		this.express = createExpressServer(appOptions);
 	}
 
 	private initializeLogger() {
 		new Logger().initializeWinston();
 	}
 
-	private initializePassport() {
-		initPassport();
-	}
-
-	private initializeDatabase(): void {
+	private initializeDatabase() {
 		AppDataSource.initialize()
 			.then(() => {})
 			.catch(err => console.error('db connection error', err));
